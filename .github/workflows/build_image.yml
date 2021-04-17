@@ -41,8 +41,7 @@ jobs:
         project_id: peaceful-access-307002
 
     # Build and push image to Google Container Registry
-    - name: Build
+    - name: Build and Push Container
       run: |-
-        gcloud builds submit \
-          --quiet \
-          --config=gcloud_build.yml
+        docker build -t gcr.io/peaceful-access-307002/teste-batata:${{  github.sha }} .
+        docker push gcr.io/peaceful-access-307002/teste-batata:${{  github.sha }}

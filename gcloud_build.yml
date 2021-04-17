@@ -1,0 +1,7 @@
+stdockeps:
+# Uses the docker build step to build an image called my-image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/peaceful-access-307002/teste-batata', '.']
+# my-image is pushed to Container Registry
+images:
+- 'gcr.io/peaceful-access-307002/teste-batata'

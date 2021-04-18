@@ -47,6 +47,6 @@ jobs:
     # Build and push image to Google Container Registry
     - name: Build and Push Container
       run: |-
-        docker build -t gcr.io/${{env.IMAGE_PATH}}:${{ env.RELEASE_VERSION }} -t gcr.io/${{env.IMAGE_PATH}} .
-        docker push gcr.io/${{env.IMAGE_PATH}} --all-tags
+        docker build -t ${{env.IMAGE_PATH}}:${{ env.RELEASE_VERSION }} -t ${{env.IMAGE_PATH}} .
+        docker push ${{env.IMAGE_PATH}} --all-tags
 

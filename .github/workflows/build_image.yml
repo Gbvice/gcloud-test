@@ -40,6 +40,9 @@ jobs:
         service_account_key: ${{ secrets.GC_SA_SECRET }}
         project_id: peaceful-access-307002
 
+    - name: Authorize Docker push
+      run: gcloud auth configure-docker
+
     # Build and push image to Google Container Registry
     - name: Build and Push Container
       run: |-

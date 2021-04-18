@@ -16,8 +16,8 @@ name: Build and Deploy to Cloud Run
 
 on:
   push:
-    branches:
-    - main
+    tags:
+    - 'v*.*.*'
 
 env:
   PROJECT_ID: ${{ secrets.RUN_PROJECT }}
@@ -43,9 +43,12 @@ jobs:
     - name: Authorize Docker push
       run: gcloud auth configure-docker
 
+    - name: Set env
+      run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
     # Build and push image to Google Container Registry
     - name: Build and Push Container
       run: |-
-        docker build -t gcr.io/peaceful-access-307002/teste-batata:${{  github.sha }} .
-        docker push gcr.io/peaceful-access-307002/teste-batata:${{  github.sha }}
+        docker build -t gcr.io/peaceful-access-307002/teste-batata:${{ env.RELEASE_VERSION }} .
+        docker push gcr.io/peaceful-access-307002/teste-batata:${{ env.RELEASE_VERSION }}
 

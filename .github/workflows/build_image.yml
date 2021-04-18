@@ -19,11 +19,6 @@ on:
     tags:
     - 'v*.*.*'
 
-env:
-  PROJECT_ID: ${{ secrets.RUN_PROJECT }}
-  RUN_REGION: us-central1
-  SERVICE_NAME: bot0-test
-
 jobs:
   setup-build-deploy:
     name: Setup, Build, and Deploy
@@ -37,8 +32,8 @@ jobs:
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
         version: '290.0.1'
-        service_account_key: ${{ secrets.GC_SA_SECRET }}
-        project_id: peaceful-access-307002
+        service_account_key: ${{ secrets.GCLOUD_SA_SECRET }}
+        project_id: ${{ secrets.GCLOUD_PROJECT_ID }}
 
     - name: Authorize Docker push
       run: gcloud auth configure-docker
@@ -49,6 +44,6 @@ jobs:
     # Build and push image to Google Container Registry
     - name: Build and Push Container
       run: |-
-        docker build -t gcr.io/peaceful-access-307002/teste-batata:${{ env.RELEASE_VERSION }} .
-        docker push gcr.io/peaceful-access-307002/teste-batata:${{ env.RELEASE_VERSION }}
+        docker build -t gcr.io/${{ secrets.GCLOUD_PROJECT_ID }}/${{ secrets.GCLOUD_APP_NAME }}:${{ env.RELEASE_VERSION }} .
+        docker push gcr.io/${{ secrets.GCLOUD_PROJECT_ID }}/${{ secrets.GCLOUD_APP_NAME }}:${{ env.RELEASE_VERSION }}
 

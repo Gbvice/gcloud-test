@@ -19,6 +19,9 @@ on:
     tags:
     - 'v*.*.*'
 
+env:
+  IMAGE_PATH: gcr.io/${{ secrets.GCLOUD_PROJECT_ID }}/${{ secrets.GCLOUD_APP_NAME }}
+
 jobs:
   setup-build-deploy:
     name: Setup, Build, and Deploy
@@ -44,6 +47,6 @@ jobs:
     # Build and push image to Google Container Registry
     - name: Build and Push Container
       run: |-
-        docker build -t gcr.io/${{ secrets.GCLOUD_PROJECT_ID }}/${{ secrets.GCLOUD_APP_NAME }}:${{ env.RELEASE_VERSION }} .
-        docker push gcr.io/${{ secrets.GCLOUD_PROJECT_ID }}/${{ secrets.GCLOUD_APP_NAME }}:${{ env.RELEASE_VERSION }}
+        docker build -t gcr.io/$IMAGE_PATH:${{ env.RELEASE_VERSION }} -t gcr.io/$IMAGE_PATH .
+        docker push gcr.io/$IMAGE_PATH --all-tags
 
